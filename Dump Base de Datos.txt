@@ -1,0 +1,36 @@
+-- Crear la tabla usuario_financiero
+CREATE TABLE usuario_financiero (
+    id SERIAL PRIMARY KEY,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_creacion VARCHAR(255),
+    fecha_modificacion TIMESTAMP,
+    usuario_modificacion VARCHAR(255)
+);
+
+-- Crear la tabla persona_natural
+CREATE TABLE persona_natural (
+    id SERIAL PRIMARY KEY,
+    id_usuario_financiero INT REFERENCES usuario_financiero(id),
+    nombres VARCHAR(255),
+    primer_apellido VARCHAR(255),
+    segundo_apellido VARCHAR(255),
+    nro_documento_identidad VARCHAR(255),
+    celular VARCHAR(20),
+    direccion_domicilio VARCHAR(255)
+);
+
+-- Crear la tabla persona_juridica
+CREATE TABLE persona_juridica (
+    id SERIAL PRIMARY KEY,
+    id_usuario_financiero INT REFERENCES usuario_financiero(id),
+    razon_social VARCHAR(255),
+    nit VARCHAR(20),
+    direccion VARCHAR(255),
+    telefono VARCHAR(20)
+);
+
+-- Crear el usuario db_user con clave abc123
+CREATE USER db_user WITH PASSWORD 'abc123';
+
+-- Otorgar privilegios de lectura, actualización y borrado en las tablas
+GRANT SELECT, UPDATE, DELETE ON usuario_financiero, persona_natural, persona_juridica TO db_user;
